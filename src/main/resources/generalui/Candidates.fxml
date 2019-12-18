@@ -32,6 +32,7 @@
                 <Label layoutX="226.0" layoutY="61.0" text="Interviewer"/>
                 <Label layoutX="226.0" layoutY="109.0" text="Type"/>
                 <Label layoutX="226.0" layoutY="155.0" text="Mark"/>
+                <Button fx:id="addInterview" layoutX="226.0" layoutY="199.0" mnemonicParsing="false" text="Add"/>
 
             </AnchorPane>
         </Tab>
@@ -41,7 +42,7 @@
                 <TextField fx:id="jobRoleName" layoutX="233.0" layoutY="14.0" prefHeight="27.0" prefWidth="199.0"/>
                 <TextArea fx:id="jobRoleDescription" layoutX="233.0" layoutY="58.0" prefHeight="200.0"
                           prefWidth="200.0"/>
-                <Button fx:id="addJobRole" layoutX="233.0" layoutY="281.0" mnemonicParsing="false" text="Button"/>
+                <Button fx:id="addJobRole" layoutX="233.0" layoutY="281.0" mnemonicParsing="false" text="Add"/>
                 <TextField fx:id="jobRoleSalary" layoutX="442.0" layoutY="14.0" prefHeight="27.0" prefWidth="143.0"/>
             </AnchorPane>
         </Tab>

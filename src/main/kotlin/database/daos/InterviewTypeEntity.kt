@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 
 class InterviewTypeEntity(id: EntityID<Int>): IntEntity(id) {
-    companion object : IntEntityClass<database.daos.InterviewTypeEntity>(InterviewTypeTable)
+    companion object : IntEntityClass<InterviewTypeEntity>(InterviewTypeTable)
 
     var name by InterviewTypeTable.name
 }

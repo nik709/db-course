@@ -6,9 +6,11 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 
 class LocationEntity(id: EntityID<Int>): IntEntity(id) {
-    companion object : IntEntityClass<database.daos.LocationEntity>(LocationTable) {
+    companion object : IntEntityClass<LocationEntity>(LocationTable) {
         fun insertDefaults() {
-            (1..10).forEach { new { name = "Location $it" } }
+            if (all().toList().isEmpty()) {
+                (1..10).forEach { new { name = "Location $it" } }
+            }
         }
     }
 

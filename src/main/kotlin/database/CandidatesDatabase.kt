@@ -46,7 +46,7 @@ class CandidatesDatabase private constructor() {
 
         private fun initSchema() {
             transaction(DB) {
-                SchemaUtils.drop(*ENTITIES)
+//                SchemaUtils.drop(*ENTITIES)
                 SchemaUtils.apply {
                     createMissingTablesAndColumns(*ENTITIES)
 

@@ -6,9 +6,12 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 
 class JobRoleEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<database.daos.JobRoleEntity>(JobRoleTable) {
+    companion object : IntEntityClass<JobRoleEntity>(JobRoleTable) {
 
         fun insertDefaults() {
+            if (all().toList().isNotEmpty()) {
+                return
+            }
             new {
                 name = "Junior SE"
                 salary = 25000f

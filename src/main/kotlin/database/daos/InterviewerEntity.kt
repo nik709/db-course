@@ -9,10 +9,12 @@ class InterviewerEntity(id: EntityID<Int>): IntEntity(id) {
 
     companion object : IntEntityClass<InterviewerEntity>(InterviewerTable) {
         fun insertDefaults() {
-            (1..10).forEach {
-                new {
-                    firstName = "Interviewer $it"
-                    lastName = "$it"
+            if (all().empty()) {
+                (1..10).forEach {
+                    new {
+                        firstName = "Interviewer"
+                        lastName = "$it"
+                    }
                 }
             }
         }

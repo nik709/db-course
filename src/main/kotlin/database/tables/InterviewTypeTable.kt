@@ -1,7 +1,7 @@
 package database.tables
 
 import org.jetbrains.exposed.dao.IntIdTable
-import org.jetbrains.exposed.sql.insertIgnore
+import org.jetbrains.exposed.sql.*
 
 private const val TABLE_NAME = "interview_type"
 private const val COL_TYPE_NAME = "name"
@@ -17,6 +17,11 @@ object InterviewTypeTable : IntIdTable(TABLE_NAME) {
     )
 
     fun insertDefault() {
-        DEFAULT_TYPES.forEach { type -> insertIgnore { it[name] = type } }
+        if (selectAll().toList().isNotEmpty()) {
+            return
+        }
+        DEFAULT_TYPES.forEach { type ->
+            insert { it[name] = type }
+        }
     }
 }

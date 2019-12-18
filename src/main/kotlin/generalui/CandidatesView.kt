@@ -26,6 +26,7 @@ class CandidatesView {
     @FXML private lateinit var jobRoleDescription: TextArea
     @FXML private lateinit var jobRoleSalary: TextField
 
+    @FXML private lateinit var addInterview: Button
     @FXML private lateinit var interviewCandidate: ChoiceBox<CandidateEntity>
     @FXML private lateinit var interviewInterviewer: ChoiceBox<InterviewerEntity>
     @FXML private lateinit var interviewType: ChoiceBox<InterviewTypeEntity>
@@ -47,41 +48,13 @@ class CandidatesView {
             }
             viewModel.selectedCandidate = candidatesList.items[it.index]
         }
-        candidateAge.items = FXCollections.observableArrayList((18..100).toList())
+        interviewsList.cellFactory = ListCellFactory<InterviewEntity> {
 
-        candidateFirstName.onMouseClicked = EventHandler {
-            if (candidateFirstName.text == ENTER_FIRST_NAME) {
-                candidateFirstName.text = EMPTY
-            }
         }
-        candidateLastName.onMouseClicked = EventHandler {
-            if (candidateLastName.text == ENTER_LAST_NAME) {
-                candidateLastName.text = EMPTY
-            }
-        }
-        prevJob.onMouseClicked = EventHandler {
-            if (prevJob.text == ENTER_PREVIOUS_JOB) {
-                prevJob.text = EMPTY
-            }
-        }
-        expectedSalary.onMouseClicked = EventHandler {
-            if (expectedSalary.text == ENTER_EXPECTED_SALARY) {
-                expectedSalary.text = EMPTY
-            }
-        }
-        expectedJobRole.converter = object : StringConverter<JobRoleEntity>() {
-            override fun toString(`object`: JobRoleEntity?): String = `object`?.name ?: EMPTY
-
-            override fun fromString(string: String?): JobRoleEntity? =
-                expectedJobRole.items.find { it.name == string }
-        }
-        candidateLocation.converter = object : StringConverter<LocationEntity>() {
-            override fun toString(`object`: LocationEntity?): String = `object`?.name ?: EMPTY
-
-            override fun fromString(string: String?): LocationEntity? =
-                candidateLocation.items.find { it.name == string }
-        }
+        bindTextFieldActions()
+        bindConverters()
         interviewMark.items = FXCollections.observableArrayList((0..10).toList())
+        candidateAge.items = FXCollections.observableArrayList((18..70).toList())
     }
 
     private fun bind() {
@@ -109,5 +82,72 @@ class CandidatesView {
 
         interviewsList.itemsProperty().bindBidirectional(interviewsViewModel.interviewItemsProp)
         interviewCandidate.itemsProperty().bindBidirectional(viewModel.candidatesList)
+        interviewCandidate.valueProperty().bindBidirectional(interviewsViewModel.candidateValueProp)
+        interviewInterviewer.itemsProperty().bindBidirectional(interviewsViewModel.interviewerItemsProp)
+        interviewInterviewer.valueProperty().bindBidirectional(interviewsViewModel.interviewerValueProp)
+        interviewType.itemsProperty().bindBidirectional(interviewsViewModel.typeItemsProp)
+        interviewType.valueProperty().bindBidirectional(interviewsViewModel.typeValueProp)
+        interviewMark.valueProperty().bindBidirectional(interviewsViewModel.markProp)
+        addInterview.setOnAction { interviewsViewModel.add() }
+    }
+
+    private fun bindConverters() {
+        expectedJobRole.converter = object : StringConverter<JobRoleEntity>() {
+            override fun toString(`object`: JobRoleEntity?): String = `object`?.name ?: EMPTY
+
+            override fun fromString(string: String?): JobRoleEntity? =
+                expectedJobRole.items.find { it.name == string }
+        }
+        candidateLocation.converter = object : StringConverter<LocationEntity>() {
+            override fun toString(`object`: LocationEntity?): String = `object`?.name ?: EMPTY
+
+            override fun fromString(string: String?): LocationEntity? =
+                candidateLocation.items.find { it.name == string }
+        }
+        interviewCandidate.converter = object : StringConverter<CandidateEntity>() {
+            override fun toString(`object`: CandidateEntity?): String = `object`?.run {
+                "$firstName $lastName"
+            } ?: EMPTY
+
+            override fun fromString(string: String?): CandidateEntity? =
+                interviewCandidate.items.find { "${it.firstName} ${it.lastName}" == string }
+        }
+        interviewInterviewer.converter = object : StringConverter<InterviewerEntity>() {
+            override fun toString(`object`: InterviewerEntity?): String = `object`?.run {
+                "$firstName $lastName"
+            } ?: EMPTY
+
+            override fun fromString(string: String?): InterviewerEntity? =
+                interviewInterviewer.items.find { "${it.firstName} ${it.lastName}" == string }
+        }
+        interviewType.converter = object : StringConverter<InterviewTypeEntity>() {
+            override fun toString(`object`: InterviewTypeEntity?): String = `object`?.run { name } ?: EMPTY
+
+            override fun fromString(string: String?): InterviewTypeEntity? =
+                interviewType.items.find { it.name == string }
+        }
+    }
+
+    private fun bindTextFieldActions() {
+        candidateFirstName.onMouseClicked = EventHandler {
+            if (candidateFirstName.text == ENTER_FIRST_NAME) {
+                candidateFirstName.text = EMPTY
+            }
+        }
+        candidateLastName.onMouseClicked = EventHandler {
+            if (candidateLastName.text == ENTER_LAST_NAME) {
+                candidateLastName.text = EMPTY
+            }
+        }
+        prevJob.onMouseClicked = EventHandler {
+            if (prevJob.text == ENTER_PREVIOUS_JOB) {
+                prevJob.text = EMPTY
+            }
+        }
+        expectedSalary.onMouseClicked = EventHandler {
+            if (expectedSalary.text == ENTER_EXPECTED_SALARY) {
+                expectedSalary.text = EMPTY
+            }
+        }
     }
 }

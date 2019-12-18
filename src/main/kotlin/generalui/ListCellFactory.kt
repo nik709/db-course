@@ -1,6 +1,7 @@
 package generalui
 
 import database.daos.CandidateEntity
+import database.daos.InterviewEntity
 import javafx.scene.control.*
 import javafx.util.Callback
 import org.jetbrains.exposed.dao.IntEntity
@@ -28,6 +29,10 @@ class ListCellFactory<CellType : IntEntity?>(
                         text = "${item.firstName} ${item.lastName}"
                         tooltip = Tooltip(getTooltipMessage(item))
                     }
+                    is InterviewEntity -> {
+                        text = "${item.candidateId.firstName} ${item.candidateId.lastName}. Result: ${item.result}"
+                        tooltip = Tooltip(getTooltipMessage(item))
+                    }
                 }
             }
         }
@@ -40,4 +45,9 @@ class ListCellFactory<CellType : IntEntity?>(
                 "\nExpected salary: ${item.expectedSalary}" +
                 "\nExpected position: ${item.expectedJobRole?.name}" +
                 "\nLocation: ${item.location?.name}"
+
+    private fun getTooltipMessage(item: InterviewEntity) =
+        "ID: ${item.id.value}" +
+                "\nType: ${item.typeId?.name}" +
+                "\nJob role: ${item.candidateId.expectedJobRole?.name}"
 }
